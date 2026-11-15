@@ -592,8 +592,8 @@ showroom.addEventListener('pointermove', (event) => {
     }
     ambient.style.setProperty('--wall-x', `${-x * 14}px`);
     ambient.style.setProperty('--wall-y', `${-y * 10}px`);
-    ambient.style.setProperty('--light-x', `${x * 230}px`);
-    ambient.style.setProperty('--light-y', `${y * 110}px`);
+    ambient.style.setProperty('--light-x', `${x * 108}px`);
+    ambient.style.setProperty('--light-y', `${y * 62}px`);
   });
 }, { passive: true });
 showroom.addEventListener('pointerleave', resetAmbientLight);

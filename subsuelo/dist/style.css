@@ -21,6 +21,10 @@
   --dust: #b9a9a6;
   --pink: #f0b1c9;
   --brick-wall: url("assets/ladrillo-editorial.jpg");
+  --brick-shadow: linear-gradient(106deg, #140e17b8 0%, #1a101b54 37%, transparent 74%);
+  --brick-light: radial-gradient(ellipse at center, #edb1ba78, #a14e624a 38%, transparent 70%);
+  --brick-light-warm: radial-gradient(ellipse at center, #edb38080, #a05c3c4c 38%, transparent 70%);
+  --brick-light-angle: -24deg;
   --rule: #413439;
   --photo-ratio: .8;
   --photo-ground: #201d1e;
@@ -161,8 +165,8 @@ body:has(.brand-intro:not([hidden])):has(.showroom[inert]) { overflow: hidden; }
   overflow: clip;
   pointer-events: none;
   isolation: isolate;
-  mask-image: linear-gradient(#000 61%, transparent);
-  background: #251e22;
+  mask-image: linear-gradient(#000 69%, transparent);
+  background: #20171e;
 }
 .showroom-ambient::before, .showroom-ambient::after {
   content: "";
@@ -171,15 +175,14 @@ body:has(.brand-intro:not([hidden])):has(.showroom[inert]) { overflow: hidden; }
 .showroom-ambient::before {
   inset: -14px;
   background:
-    linear-gradient(90deg, #14111248, transparent 70%),
-    linear-gradient(180deg, transparent 57%, #1411129c),
+    var(--brick-shadow),
     var(--brick-wall) 65% 36% / cover no-repeat;
 }
 .showroom-ambient::after {
   inset: -26%;
-  background: radial-gradient(ellipse at center, #eea2bb63, #9a35564a 36%, transparent 67%);
-  translate: 16% -19%;
-  transform: translate(var(--light-x), var(--light-y)) rotate(-24deg) scaleY(.46);
+  background: var(--brick-light);
+  translate: 21% -16%;
+  transform: translate(var(--light-x), var(--light-y)) rotate(var(--brick-light-angle)) scaleY(.58);
   mix-blend-mode: screen;
   opacity: .84;
 }
@@ -190,8 +193,7 @@ body:has(.brand-intro:not([hidden])):has(.showroom[inert]) { overflow: hidden; }
     animation: showroom-light-in 3.2s var(--motion);
   }
   @keyframes showroom-light-in {
-    from { translate: -21% -31%; opacity: .15; }
-    55% { opacity: 1; }
+    from { translate: 29% -27%; opacity: .25; }
   }
 }
 @media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
@@ -246,12 +248,15 @@ body:has(.brand-intro:not([hidden])):has(.showroom[inert]) { overflow: hidden; }
 .detail-ambient {
   inset: 0;
   height: auto;
-  mask-image: linear-gradient(transparent, #000 14% 83%, transparent);
+  mask-image: linear-gradient(transparent, #000 12% 87%, transparent);
 }
 .detail-ambient::before {
   background:
-    linear-gradient(90deg, #141112c9, #14111236 85%),
-    var(--brick-wall) 56% 65% / cover no-repeat;
+    var(--brick-shadow),
+    var(--brick-wall) 65% 69% / cover no-repeat;
+}
+.detail-ambient::after {
+  translate: 21% -5%;
 }
 
 .piece-info { grid-area: title; min-width: 0; align-self: end; }
@@ -292,15 +297,16 @@ body:has(.brand-intro:not([hidden])):has(.showroom[inert]) { overflow: hidden; }
   overflow: hidden;
   border: 1px solid var(--rule);
   background:
-    radial-gradient(ellipse at 50% 43%, #19131825 22%, #181215b8 100%),
-    var(--brick-wall) 70% 46% / cover no-repeat,
+    var(--brick-shadow),
+    linear-gradient(0deg, #18121594, transparent 53%),
+    var(--brick-wall) 74% 58% / cover no-repeat,
     #24191d;
-  box-shadow: 0 1rem 3rem #0005;
+  box-shadow: -.8rem 1.1rem 2.6rem #0d090db3;
   cursor: ew-resize;
   touch-action: pan-y pinch-zoom;
   user-select: none;
 }
-.stage::before { content: ''; position: absolute; inset: -15%; background: radial-gradient(ellipse at 50% 45%, var(--piece-glow, #63404f), transparent 62%); opacity: .48; transform: translateX(var(--ambient-x)); transition: transform .65s var(--motion); pointer-events: none; }
+.stage::before { content: ''; position: absolute; inset: -28%; background: var(--brick-light); mix-blend-mode: screen; opacity: .58; translate: 17% -13%; transform: translateX(var(--ambient-x)) rotate(var(--brick-light-angle)) scaleY(.65); transition: transform .65s var(--motion); pointer-events: none; }
 .stage-frame, .stage-media, .stage-light { position: absolute; inset: 0; }
 .stage-frame {
   --lens-radius: clamp(3rem, 8vw, 5rem);
@@ -465,7 +471,8 @@ body:has(.brand-intro:not([hidden])):has(.showroom[inert]) { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; }
   .masthead h1 img { animation: none; }
-  .tile, .tile-name, .tile:is(:hover, :focus-visible, [aria-current="true"]) .tile-name, .gallery-controls, .stage::before { transform: none; }
+  .tile, .tile-name, .tile:is(:hover, :focus-visible, [aria-current="true"]) .tile-name, .gallery-controls { transform: none; }
+  .stage::before { transform: rotate(var(--brick-light-angle)) scaleY(.65); }
   .tile-image::after { display: none; }
   .masthead h1 img:hover { transform: none; }
 }
@@ -481,29 +488,30 @@ body:has(.brand-intro:not([hidden])):has(.showroom[inert]) { overflow: hidden; }
   margin-inline: auto;
   padding: clamp(3.5rem, 8vw, 8rem) var(--gutter) clamp(2.5rem, 6vw, 6rem);
   background:
-    linear-gradient(180deg, var(--black), #14111219 23%, transparent 66%, #141112b3),
+    linear-gradient(180deg, var(--black), transparent 23% 78%, #1411129c),
+    var(--brick-shadow),
     url("assets/ladrillo-zocalo.jpg") 68% 54% / cover no-repeat,
     var(--black);
 }
 .brand-footer::before, .brand-footer::after {
   content: "";
   position: absolute;
-  inset: 0 -18% -18%;
+  inset: -18%;
   z-index: -1;
   pointer-events: none;
   mix-blend-mode: screen;
-  mask-image: linear-gradient(transparent, #000 25%);
+  translate: 20% 6%;
   transition: transform .95s var(--motion), opacity .7s ease;
 }
 .brand-footer::before {
-  background: radial-gradient(ellipse at 43% 56%, #bc467764, transparent 52%);
-  opacity: calc(1 - var(--shop-warm-light));
-  transform: translateX(calc(var(--shop-warm-light) * 12%));
+  background: var(--brick-light);
+  opacity: calc(.74 * (1 - var(--shop-warm-light)));
+  transform: rotate(var(--brick-light-angle)) scaleY(.58);
 }
 .brand-footer::after {
-  background: radial-gradient(ellipse at 53% 57%, #c16b3e74, transparent 53%);
-  opacity: var(--shop-warm-light);
-  transform: translateX(calc((var(--shop-warm-light) - 1) * -12%));
+  background: var(--brick-light-warm);
+  opacity: calc(.3 + var(--shop-warm-light) * .6);
+  transform: translateY(calc((1 - var(--shop-warm-light)) * 10%)) rotate(var(--brick-light-angle)) scaleY(.68);
 }
 .brand-footer:has([data-shop="guemes"][aria-pressed="true"]) {
   --shop-accent: #f4c59a;
@@ -571,13 +579,13 @@ body:has(.brand-intro:not([hidden])):has(.showroom[inert]) { overflow: hidden; }
   position: absolute;
   inset: -25%;
   z-index: -1;
-  background: radial-gradient(ellipse at center, #9d4e6f72, transparent 58%);
+  background: radial-gradient(ellipse at 65% 43%, #9d4e6f4c, transparent 57%);
   transform: translate(var(--shop-x, 0px), var(--shop-y, 0px));
   opacity: calc(1 - var(--shop-warm-light));
   transition: transform .55s var(--motion), opacity .45s ease;
   pointer-events: none;
 }
-.shop-sign::after { background: radial-gradient(ellipse at center, #b36a4079, transparent 58%); opacity: var(--shop-warm-light); }
+.shop-sign::after { background: radial-gradient(ellipse at 65% 43%, #b36a4054, transparent 57%); opacity: var(--shop-warm-light); }
 .shop-sign-face {
   width: min(76%, 24rem);
   padding: clamp(1.1rem, 4vw, 2.75rem);
@@ -677,7 +685,7 @@ body:has(.outfit[open]) { overflow: hidden; }
 }
 
 @media (max-width: 690px) {
-  .brand-footer { background-position: center, 72% center, center; }
+  .brand-footer { background-position: center, center, 72% center, center; }
   .shops { grid-template-columns: minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) {
